@@ -5,6 +5,7 @@ let hasCardFlipped = false;
 let lockBoard = false;
 let firstCard, secondCard;
 let totalFlips = 0;
+let matchedPairs = 8;
 
 let spanScore = document.getElementsByClassName("score")[0];
 
@@ -29,11 +30,22 @@ function flipCard() {
 function checkForMatch() {
   if (firstCard.dataset.info === secondCard.dataset.info) {
     disableCards();
+    matchedPairs--;
   } else {
     unflipCards();
   }
   totalFlips++;
   spanScore.innerHTML = totalFlips;
+  if (matchedPairs === 0) {
+    alert(
+      `Congrats! You finished! Your score is: ${totalFlips}. Try to beat this score!`
+    );
+    if (confirm("Do you want to play again?")) {
+      location.reload();
+    } else {
+      return;
+    }
+  }
 }
 
 function disableCards() {
@@ -48,7 +60,7 @@ function unflipCards() {
     firstCard.classList.remove("flip");
     secondCard.classList.remove("flip");
     resetBoard();
-  }, 1500);
+  }, 800);
 }
 
 function resetBoard() {
